@@ -2,6 +2,26 @@
 
 set -euo pipefail
 
+for src in src/mid/*.java; do
+
+  if [[ -f "$src" ]]; then
+
+    printf "Building $src\n"
+
+    if [[ "${MODE:-development}" == production ]]; then
+
+      javac -cp "dst/lib/*" "$src" -d dst/mid/
+
+    else
+
+      javac -cp "dst/lib/*" "$src" -d dst/mid/ -g
+
+    fi
+
+  fi
+
+done
+
 for src in src/pub/*; do
 
   if [[ -f "$src" ]]; then
