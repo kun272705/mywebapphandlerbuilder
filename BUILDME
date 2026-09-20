@@ -8,6 +8,8 @@ for src in src/mid/*.java; do
 
     printf "Building $src\n"
 
+    mkdir -p dst/mid/
+
     if [[ "${MODE:-development}" == production ]]; then
 
       javac -cp "dst/lib/*" "$src" -d dst/mid/
