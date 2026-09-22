@@ -12,11 +12,11 @@ for src in src/mid/*.java; do
 
     if [[ "${MODE:-development}" == production ]]; then
 
-      javac -cp "dst/lib/*" "$src" -d dst/mid/
+      javac -cp "dst/lib/*" -d dst/mid/ "$src"
 
     else
 
-      javac -cp "dst/lib/*" "$src" -d dst/mid/ -g
+      javac -cp "dst/lib/*" -d dst/mid/ -g "$src"
 
     fi
 
@@ -76,11 +76,11 @@ for src in src/pub.*/; do
 
       if [[ "${MODE:-development}" == production ]]; then
 
-        javac -cp "dst/lib/*" "${src%/*}"/Handler.java -d "${dst%/*}"/
+        javac -cp "dst/lib/*" -d "${dst%/*}"/ "${src%/*}"/Handler.java
 
       else
 
-        javac -cp "dst/lib/*" "${src%/*}"/Handler.java -d "${dst%/*}"/ -g
+        javac -cp "dst/lib/*" -d "${dst%/*}"/ -g "${src%/*}"/Handler.java
 
       fi
 
