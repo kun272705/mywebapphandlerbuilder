@@ -111,11 +111,11 @@ for src in src/pub.*/; do
 
       if [[ "${MODE:-development}" == production ]]; then
 
-        npx ejs "$src".html -o "$dst".html -m ! -w
+        npx ejs "$src".html -o "$dst".html -w
 
       else
 
-        npx ejs "$src".html -o "$dst".html -m !
+        npx ejs "$src".html -o "$dst".html
 
       fi
 
