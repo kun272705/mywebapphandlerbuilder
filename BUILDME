@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-for src in src/mid/*.java; do
+for src in src/mid/*Handler.java; do
 
   if [[ -f "$src" ]]; then
 
