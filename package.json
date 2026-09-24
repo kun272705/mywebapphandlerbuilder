@@ -8,6 +8,10 @@
     "lightningcss": "^1.33.0",
     "lightningcss-cli": "^1.33.0",
     "rolldown": "^1.2.10"
+  },
+  "allowScripts": {
+    "@swc/core@1.16.2": true,
+    "lightningcss-cli@1.33.0": true
   }
 }
 
