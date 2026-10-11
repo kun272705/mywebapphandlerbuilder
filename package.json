@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "devDependencies": {
     "@swc/cli": "^0.8.1",
-    "@swc/core": "^1.16.13",
+    "@swc/core": "^1.16.18",
     "ejs": "^7.0.1",
     "lightningcss": "^1.33.0",
     "lightningcss-cli": "^1.33.0",
     "rolldown": "^1.2.13"
   },
   "allowScripts": {
-    "@swc/core@1.16.13": true,
+    "@swc/core@1.16.18": true,
     "lightningcss-cli@1.33.0": true
   }
 }
