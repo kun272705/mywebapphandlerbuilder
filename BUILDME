@@ -94,7 +94,7 @@ for src in src/pub.*/; do
 
       if [[ "${MODE:-development}" == production ]]; then
 
-        npx rolldown "$dst".transpiled.js -o "$dst".js -m
+        npx terser "$dst".transpiled.js -c -o "$dst".js
 
       else
 
