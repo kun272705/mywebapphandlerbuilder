@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "devDependencies": {
     "@swc/cli": "^0.8.1",
-    "@swc/core": "^1.16.18",
+    "@swc/core": "^1.16.20",
     "ejs": "^7.0.2",
     "lightningcss": "^1.33.0",
     "lightningcss-cli": "^1.33.0",
@@ -11,7 +11,7 @@
     "terser": "^5.51.2"
   },
   "allowScripts": {
-    "@swc/core@1.16.18": true,
+    "@swc/core@1.16.20": true,
     "lightningcss-cli@1.33.0": true
   }
 }
