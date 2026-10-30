@@ -7,7 +7,7 @@
     "ejs": "^7.0.2",
     "lightningcss": "^1.33.0",
     "lightningcss-cli": "^1.33.0",
-    "rolldown": "^1.2.15",
+    "rolldown": "^1.2.16",
     "terser": "^5.51.2"
   },
   "allowScripts": {
