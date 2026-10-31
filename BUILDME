@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-for src in src/int/*Handler.java; do
+for src in src/int/*Interceptor.java; do
 
   if [[ -f "$src" ]]; then
 
