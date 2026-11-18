@@ -4,19 +4,19 @@ set -euo pipefail
 
 for src in src/int/*Interceptor.java; do
 
-  if [[ -f "$src" ]]; then
+  if [[ -f "${src}" ]]; then
 
-    printf "Building $src\n"
+    printf "Building ${src}\n"
 
     mkdir -p dst/int/
 
     if [[ "${MODE:-development}" == production ]]; then
 
-      javac "$src" -cp "dst/lib/*" -d dst/int/
+      javac "${src}" -cp "dst/lib/*" -d dst/int/
 
     else
 
-      javac "$src" -cp "dst/lib/*" -d dst/int/ -g
+      javac "${src}" -cp "dst/lib/*" -d dst/int/ -g
 
     fi
 
@@ -26,15 +26,15 @@ done
 
 for src in src/pub/*; do
 
-  if [[ -f "$src" ]]; then
+  if [[ -f "${src}" ]]; then
 
-    printf "Building $src\n"
+    printf "Building ${src}\n"
 
     dst="${src/src/dst}"
 
     mkdir -p dst/pub/
 
-    cp "$src" "$dst"
+    cp "${src}" "${dst}"
 
   fi
 
@@ -42,16 +42,16 @@ done
 
 for src in src/pub.lib.*/; do
   
-  if [[ -d "$src" ]]; then
+  if [[ -d "${src}" ]]; then
 
-    printf "Building $src\n"
+    printf "Building ${src}\n"
 
     dst="${src/src/dst}"
     dst="${dst//./\/}"
 
-    mkdir -p "$dst"
+    mkdir -p "${dst}"
 
-    cp -r -T "$src" "$dst"
+    cp -r -T "${src}" "${dst}"
 
   fi
 
@@ -59,103 +59,103 @@ done
 
 for src in src/pub.*/; do
 
-  if [[ -d "$src" && ! "$src" =~ ^src/pub.lib.*/$ ]]; then
+  if [[ -d "${src}" && ! "${src}" =~ ^src/pub.lib.*/$ ]]; then
 
-    printf "Building $src\n"
+    printf "Building ${src}\n"
 
     tmp="${src%\/}"
 
-    src="$src${tmp##*.}"
+    src="${src}${tmp##*.}"
 
     dst="${tmp/src/dst}"
     dst="${dst//./\/}"
 
-    mkdir -p "${dst%/*}"/
+    mkdir -p "${dst%/*}/"
 
-    if [[ -f "${src%/*}"/Handler.java ]]; then
+    if [[ -f "${src%/*}/Handler.java" ]]; then
 
       if [[ "${MODE:-development}" == production ]]; then
 
-        javac "${src%/*}"/Handler.java -cp "dst/lib/*" -d "${dst%/*}"/
+        javac "${src%/*}/Handler.java" -cp "dst/lib/*" -d "${dst%/*}/"
 
       else
 
-        javac "${src%/*}"/Handler.java -cp "dst/lib/*" -d "${dst%/*}"/ -g
+        javac "${src%/*}/Handler.java" -cp "dst/lib/*" -d "${dst%/*}/" -g
 
       fi
 
     fi
 
-    if [[ -f "$src".js ]]; then
+    if [[ -f "${src}.js" ]]; then
 
-      npx rolldown "$src".js -o "$dst".combined.js -f iife
+      npx rolldown "${src}.js" -o "${dst}.combined.js" -f iife
 
-      npx swc "$dst".combined.js -o "$dst".transpiled.js
+      npx swc "${dst}.combined.js" -o "${dst}.transpiled.js"
 
       if [[ "${MODE:-development}" == production ]]; then
 
-        npx terser "$dst".transpiled.js -m -c -o "$dst".js
+        npx terser "${dst}.transpiled.js" -m -c -o "${dst}.js"
 
       else
 
-        cp "$dst".transpiled.js "$dst".js
+        cp "${dst}.transpiled.js" "${dst}.js"
 
       fi
 
-      rm "$dst".combined.js
-      rm "$dst".transpiled.js
+      rm "${dst}.combined.js"
+      rm "${dst}.transpiled.js"
 
     fi
 
-    if [[ -f "$src".html ]]; then
+    if [[ -f "${src}.html" ]]; then
 
       if [[ "${MODE:-development}" == production ]]; then
 
-        npx ejs "$src".html -o "$dst".html -w
+        npx ejs "${src}.html" -o "${dst}.html" -w
 
       else
 
-        npx ejs "$src".html -o "$dst".html
-
-      fi
-
-    fi
-
-    if [[ -f "$src".css ]]; then
-
-      if [[ "${MODE:-development}" == production ]]; then
-
-        npx lightningcss "$src".css -o "$dst".css --bundle --browserslist --minify
-
-      else
-
-        npx lightningcss "$src".css -o "$dst".css --bundle --browserslist
+        npx ejs "${src}.html" -o "${dst}.html"
 
       fi
 
     fi
 
-    if [[ -f "${src%/*}"/Handler.java ]]; then
+    if [[ -f "${src}.css" ]]; then
 
-      args=(-C "${dst%/*}"/ Handler.class)
+      if [[ "${MODE:-development}" == production ]]; then
 
-      if [[ -d "${src%/*}"/resources/ ]]; then
+        npx lightningcss "${src}.css" -o "${dst}.css" --bundle --browserslist --minify
 
-        args+=(-C "${src%/*}"/ resources/)
+      else
 
-      fi
-
-      if [[ -f "$dst".html ]]; then
-
-        args+=(-C "${dst%/*}"/ "${dst##*/}".html)
+        npx lightningcss "${src}.css" -o "${dst}.css" --bundle --browserslist
 
       fi
 
-      jar cf "$dst".jar "${args[@]}"
+    fi
 
-      rm "${dst%/*}"/Handler.class
+    if [[ -f "${src%/*}/Handler.java" ]]; then
 
-      rm -f "$dst".html
+      args=(-C "${dst%/*}/" Handler.class)
+
+      if [[ -d "${src%/*}/resources/" ]]; then
+
+        args+=(-C "${src%/*}/" resources/)
+
+      fi
+
+      if [[ -f "${dst}.html" ]]; then
+
+        args+=(-C "${dst%/*}/" "${dst##*/}.html")
+
+      fi
+
+      jar cf "${dst}.jar" "${args[@]}"
+
+      rm "${dst%/*}/Handler.class"
+
+      rm -f "${dst}.html"
 
     fi
 
